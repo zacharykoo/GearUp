@@ -36,6 +36,7 @@ public class startGame {
 				weights = true;
 			}
 		}
+		System.out.println(" ");
 		if (fans == false) {
 			System.out.println("1. Fans");
 		}
