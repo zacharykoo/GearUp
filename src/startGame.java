@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class startGame {
@@ -8,6 +9,48 @@ public class startGame {
 	
 	public static void printADHP (int Attack, int Defense, int HP) {
 		System.out.println("\nYour Current Stats after preparing: \nAttack - " + Attack + "\nDefense - " + Defense + "\nHP - " + HP);
+	}
+	
+	public static void printList (ArrayList<Integer> list) {
+		boolean fans, metal, armor, energyDrink, weights;
+		fans = metal = armor = energyDrink = weights = false;
+		for (int chose:list) {
+			if (chose==1) {
+				System.out.println("1. Fans - Obtained");
+				fans = true;
+			}
+			else if (chose ==2) {
+				System.out.println("2. Metal - Obtained");
+				metal = true;
+			}
+			else if (chose == 3) {
+				System.out.println("3. Armor - Obtained");
+				armor = true;
+			}
+			else if (chose == 4) {
+				System.out.println("4. EnergyDrink - Obtained");
+				energyDrink = true;
+			}
+			else if (chose ==5 ) {
+				System.out.println("5. Weight - Obtained");
+				weights = true;
+			}
+		}
+		if (fans == false) {
+			System.out.println("1. Fans");
+		}
+		if (metal == false) {
+			System.out.println("2. Metal");
+		}
+		if (armor == false) {
+			System.out.println("3. Armor");
+		}
+		if (energyDrink == false) {
+			System.out.println("4. EnergyDrink");
+		}
+		if (weights == false) {
+			System.out.println("5. Weight");
+		}
 	}
 	
 	public static void printLV (int tempEnergyDrinkLV, int tempArmorLV, int tempFansLV, int tempMetalLV, int tempTrainLV) {
@@ -58,6 +101,7 @@ public class startGame {
 	}
 	
 	public static void UpdateAll (getFans Fans, getMetal Metal, getArmor Armor, getEnergyDrink EnergyDrink, getWeight Weight, int choseItem) {
+		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
 		UpdateFans(Fans, choseItem);
 		UpdateMetal(Metal, choseItem);
@@ -134,6 +178,7 @@ public class startGame {
 		int nowHeroHP = (hero.HP - DKingDamageDeal);
 		int HeroDamageDeal = (hero.Attack - DKing.Defense);
 		int nowDKingHP = (DKing.HP - HeroDamageDeal);
+		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
 		
 		System.out.println("\nDemon King attacked you by surprise, dealing " + DKingDamageDeal + " damage. \nYou now have " + nowHeroHP + " HP left. (Enter)");
@@ -189,8 +234,11 @@ public class startGame {
 		int itemChoose = input.nextInt();
 		
 		int daysPassed = 0;
+		ArrayList<Integer> pickedItems = new ArrayList<Integer>(5);
 		while (daysPassed != 5) {
 			
+			pickedItems.add(itemChoose);
+				
 			UpdateAll(Fans, Metal, Armor, EnergyDrink, Weight, itemChoose);
 			
 			hero.updateHero(EnergyDrink.EnergyDrink, Armor.Armor, Fans.Fans, Metal.Metal, Weight.TrainATT, Weight.TrainHP);
@@ -200,8 +248,8 @@ public class startGame {
 			daysPassed++;
 			System.out.println("\nDay " + (daysPassed + 1)+ ": ");
 			if (daysPassed != 5) {
-				System.out.println("\nPick another item to Obtain, do not choose the same item, because I am too lazy to program that atm.");
-				System.out.println("\nItems: \n1.Fans \n2.Metal \n3.Armor \n4.EnergyDrink \n5.Weights \n");
+				System.out.println("\nPick another item to Obtain, do not choose the same item.");
+				printList(pickedItems);
 				itemChoose = input.nextInt();
 			}
 		}
