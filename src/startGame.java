@@ -212,7 +212,33 @@ public class startGame {
 		}
 		
 	}
+	
+	public static int getInput () {
+        @SuppressWarnings("resource")
+		Scanner input = new Scanner(System.in);
+        int userInput;
+        while (true) {
+            try {
+                userInput = input.nextInt();
+                break;
+            } catch (Exception e) {
+                System.out.println("Please enter a valid integer.");
+                input.nextLine();
+            }
+        }
+        return userInput;
+    }
 
+	public static boolean checkDuplicate (ArrayList<Integer> list, int userInput) {
+		for (int num : list) {
+			if (userInput == num) {
+				System.out.println("Please enter a different item. You already obtained this item before.");
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public static void main(String[] args) {
 //		Create Objects for the Game
 		hero hero = new hero();
@@ -232,7 +258,8 @@ public class startGame {
 		System.out.println("You can obtain 1 thing/item a day, those items will level up everyday until MAX level is reached. MAX all items to beat Demon King.");
 		System.out.println("\nItems: \n1.Fans \n2.Metal \n3.Armor \n4.EnergyDrink \n5.Weights \n");
 		System.out.println("Type the number to get the item you want.");
-		int itemChoose = input.nextInt();
+		
+		int itemChoose = getInput();
 		
 		int daysPassed = 0;
 		ArrayList<Integer> pickedItems = new ArrayList<Integer>(5);
@@ -244,14 +271,17 @@ public class startGame {
 			
 			hero.updateHero(EnergyDrink.EnergyDrink, Armor.Armor, Fans.Fans, Metal.Metal, Weight.TrainATT, Weight.TrainHP);
 			
-//			printStats(hero.EnergyDrink, hero.Armor, hero.Fans, hero.Metal, hero.TrainATT, hero.TrainHP);
-			
 			daysPassed++;
 			System.out.println("\nDay " + (daysPassed + 1)+ ": ");
+			boolean isDuplicate;
 			if (daysPassed != 5) {
 				System.out.println("\nPick another item to Obtain, do not choose the same item.");
 				printList(pickedItems);
-				itemChoose = input.nextInt();
+				isDuplicate = true;
+				while (isDuplicate == true) {
+					itemChoose = getInput();
+					isDuplicate = checkDuplicate(pickedItems, itemChoose);
+				}
 			}
 		}
 		printLV(EnergyDrink.EnergyDrinkLV, Armor.ArmorLV, Fans.FansLV, Metal.MetalLV, Weight.WeightLV);
